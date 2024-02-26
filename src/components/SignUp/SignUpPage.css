@@ -35,3 +35,6 @@
     background-color: #0056b3;
   }
   
+  .error-message {
+    color: red;
+  }
