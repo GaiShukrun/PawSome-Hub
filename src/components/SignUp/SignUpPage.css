@@ -34,8 +34,6 @@
   .signup-container form button:hover {
     background-color: #0056b3;
   }
-
-  .error-message{
-    color:red;
+  .error-message {
+    color: red;
   }
-  
