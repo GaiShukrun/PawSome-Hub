@@ -10,6 +10,7 @@ import UserNavbar from './components/Navbar/UserNavbar';
 
 
 
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -22,6 +23,7 @@ function App() {
         <GuestNavbar />
       )}
         <Routes>  
+          {/* <Route path="/mycart" element={<Cart/>}/> */}
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/" element={<HomePage />} />
