@@ -16,9 +16,6 @@ function GuestNavbar() {
         <li className="nav-item">
           <Link to="/login" className="nav-link">Login</Link>
         </li>
-        <li className="nav-item">
-          <Link to="/Cart" className="nav-link">MyCart</Link>
-        </li>
         {/* Add more navigation links as needed */}
       </ul>
     </nav>
