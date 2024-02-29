@@ -19,6 +19,7 @@ function UserNavbar() {
         <li className="nav-item">
           <Link to="/mycart" className="nav-link">My cart</Link>
         </li>
+        
         {/* Add more navigation links as needed */}
       </ul>
     </nav>
