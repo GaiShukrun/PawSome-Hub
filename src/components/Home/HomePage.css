@@ -1,0 +1,44 @@
+.items {
+    display: flex; /* Added display: flex to the parent container */
+    flex-wrap: wrap; /* Wrap items onto multiple lines if needed */
+    justify-content: space-between; /* Distribute boxes evenly with margin */
+    margin: 0 auto; /* Center the container horizontally */ /* Added margin: 0 auto */
+  }
+
+
+.item-box {
+    border-radius: 50%; /* Creates a circle */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    /* Added max-width to limit horizontal expansion */
+    max-width: 300px; /* Adjust as desired */
+    align-items: center;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .item-box:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+  }
+  
+  .item-box img {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Additional customizations (optional) */
+  .item-box h3 {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .item-box p {
+    font-size: 14px;
+    color: #666;
+  }
