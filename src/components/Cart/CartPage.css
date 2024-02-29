@@ -1,0 +1,94 @@
+/* CartPage.css */
+
+.cart-page {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.cart-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.cart-item {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item img {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+}
+
+.item-details {
+  margin-top: 15px;
+}
+
+.item-details h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+}
+
+.item-details p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.cart-total {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.checkout-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #f0c14b;
+  color: #111;
+  font-size: 18px;
+  text-align: center;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.checkout-button:hover {
+  background-color: #ddb347;
+}
+
+.quantity-buttons button {
+    padding: 0.3rem 0.5rem; /* Adjust as needed */
+    font-size: 0.8rem; /* Adjust as needed */
+    margin: 0 0.5rem; /* Adjust as needed */
+  }
+
+.quantity-buttons button:hover {
+  background-color: #48dbeb;
+} 
+
+.remove-button {
+  background-color: #ff483d;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background-color: #ff0d00;
+}
+
+.icon {
+  font-size: 8px;
+}
