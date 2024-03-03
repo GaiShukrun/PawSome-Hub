@@ -3,6 +3,7 @@ import './SignUpPage.css';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
 
+
 function SignUpPage() {
   const [formData, setFormData] = useState({
     username: '',
@@ -37,23 +38,7 @@ function SignUpPage() {
       }
     }
   };
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.post('http://localhost:3001/api/signup', formData);
-  //     console.log('Signup successful:', response.data);
-  //     // Store token in session storage
-  //     sessionStorage.setItem('token', response.data.token);
-  //     // Redirect to login page
-  //     navigate('/login');
-  //   } catch (error) {
-  //     if (error.response && error.response.data && error.response.data.error) {
-  //       setError(error.response.data.error); // Set the error message
-  //     } else {
-  //       setError('An unexpected error occurred. Please try again.'); // Generic error message
-  //     }
-  //   }
-  // };
+  
   return (
     <div className="signup-container">
       <h2>Sign Up</h2>
@@ -92,11 +77,10 @@ function SignUpPage() {
           required
         />
         <button type="submit">Sign Up</button>
-      </form>
-    
+      </form> 
       
-         
     </div>
+    
     
   );
 }
