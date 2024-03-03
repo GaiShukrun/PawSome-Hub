@@ -171,12 +171,17 @@ const HomePage = ({cartItems, setCartItems,username}) => {
               <p>Price: ${Number(item.itemPrice).toFixed(2)}</p>
               <p style={{ fontSize: '14px',maxHeight: '83px', overflowY: 'auto' }}>{item.itemDescription}</p>
             </div>
-
             <p>Remains in stock: {item.itemAmount}</p>
+
+            
+            { username ? (
             <div className='item-buttons'>
               <button onClick={() => addToCart(item)}>Add to Cart</button>
               <button onClick={() => buyNow(item)}>Buy Now</button>
             </div>
+            ) : (
+              <p style={{ fontWeight: 'bold' }} >Login to add to cart!</p>
+            )}
 
             {/* Debugging statements */}
             {console.log('addedItemIds:', addedItemIds)}
