@@ -130,16 +130,19 @@ import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import Cart from '../Cart/Cart.jsx';
 
-const HomePage = ({ cartItems, setCartItems }) => {
+const HomePage = ({cartItems, setCartItems}) => {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [petSearch, setPetSearch] = useState('');
-  const [sortByPrice, setSortByPrice] = useState('');
+  const [petSearch, setPetSearch] = useState(''); // New state for pet type search
+  const [sortByPrice, setSortByPrice] = useState(''); // Default sort: null
+  const [addedItemIds, setAddedItemIds] = useState([]); // State variable to track added item IDs
 
   useEffect(() => {
     fetchFeaturedItems();
   }, []);
 
+
+  // Function to fetch featured items from the server
   const fetchFeaturedItems = async () => {
     try {
       const response = await fetch('http://localhost:3001/api/get-featured-items');
@@ -197,10 +200,41 @@ const HomePage = ({ cartItems, setCartItems }) => {
       return 0;
     }
   });
+
+
+  // Function to handle adding an item to the cart
+  const addToCart = (item) => {
+    // Check if the item is already in the cart
+    const existingItem = cartItems.find(cartItem => cartItem._id === item._id);
+    if (existingItem) {
+      // If the item is already in the cart, increase its quantity
+      const updatedCartItems = cartItems.map(cartItem =>
+        cartItem._id === item._id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+      );
+      setCartItems(updatedCartItems);
+    } else {
+      // If the item is not in the cart, add it with quantity 1
+      setCartItems([...cartItems, { ...item, quantity: 1 }]);
+    }
+
+    setAddedItemIds([...addedItemIds, item._id]); // Add item ID to addedItemIds
+    setTimeout(() => {
+      // Remove item ID from addedItemIds after 0.7 seconds
+      setAddedItemIds(addedItemIds.filter(id => id !== item._id));
+    }, 700);
+
+    console.log(`Added item ${item._id} to cart`);
+  };
+
+  // Function to handle proceeding to checkout with an item
+  const buyNow = (itemId) => {
+    // Implement your logic to proceed to checkout with the item
+    console.log(`Proceeding to checkout with item ${itemId}`);
+  };
   
 
   return (
-    <div>
+    <div class>
       <h2>Featured Items</h2>
       <div className="search-container">
         <div className="search-bar">
@@ -245,6 +279,16 @@ const HomePage = ({ cartItems, setCartItems }) => {
             <p>{item.itemDescription}</p>
             <button onClick={() => addToCart(item)}>Add to Cart</button>
             <p>Remains in stock: {item.itemAmount}</p>
+            <div>
+              <button onClick={() => addToCart(item)}>Add to Cart</button>
+              <button onClick={() => buyNow(item)}>Buy Now</button>
+            </div>
+            {/* Debugging statements */}
+            {console.log('addedItemIds:', addedItemIds)}
+            {console.log('item._id:', item._id)}
+            {console.log('CART:', cartItems)}
+            {/* Render message below the item */}
+            {addedItemIds.includes(item._id) && <div>Item added to your cart</div>}
           </div>
         ))}
       </div>

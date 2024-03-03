@@ -5,8 +5,6 @@ const bcrypt = require("bcrypt");
 const UsersModel = require('./models/users')
 const ItemModel = require('./models/Items')
 
-const jwt = require('jsonwebtoken');
-
 const app = express()
 app.use(express.json())
 app.use(cors())

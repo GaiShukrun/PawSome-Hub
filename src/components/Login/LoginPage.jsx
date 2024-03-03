@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+
+import React, { useState,useEffect,useContext } from 'react';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
 import './LoginPage.css'
-
+import { NameContext } from "../../App";
+import { useCookies } from 'react-cookie';
+import HomePage from '../Home/HomePage';
 function Login({ setIsLoggedIn }) {
   const [formData, setFormData] = useState({
     username: '',
@@ -16,38 +19,30 @@ function Login({ setIsLoggedIn }) {
       [name]: value
     });
   };
-
+  
+  
 
   const navigate = useNavigate (); 
-
+  const [cookies, setCookie] = useCookies(['token','username']);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     try {
       const response = await axios.post('http://localhost:3001/api/login', formData);
       console.log('Login successful:', response.data);
+      setCookie('token', response.data.token, { path: '/' });
       // Handle successful login (redirect, display message, etc.)
+      setCookie('username', formData.username.toString(), { path: '/' });
+      
       setIsLoggedIn(true);
+      // console.log(formData.username.toString());
       navigate("/");
     } catch (error) {
       console.error('Login failed:', error.response.data);
       // Handle login failure (display error message, reset form, etc.)
     }
   };
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.post('http://localhost:3001/api/login', formData);
-  //     console.log('Login successful:', response.data);
-  //     // Store token in session storage
-  //     sessionStorage.setItem('token', response.data.token); // Assuming token is returned from the server
-  //     // Handle successful login (redirect, display message, etc.)
-  //     setIsLoggedIn(true);
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.error('Login failed:', error.response.data);
-  //     // Handle login failure (display error message, reset form, etc.)
-  //   }
-  // };
+  
 
   return (
     <div className="login-container" >
