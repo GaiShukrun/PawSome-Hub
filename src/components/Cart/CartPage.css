@@ -1,94 +1,78 @@
-/* CartPage.css */
-
-.cart-page {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-}
-
-.cart-items {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-}
+CartPage.css
 
 .cart-item {
+  display: flex;
   border: 1px solid #ddd;
   border-radius: 5px;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  padding: 10px;
 }
 
 .cart-item img {
-  width: 100px;
-  height: 100px;
-  border-radius: 5px;
+  width: 100px; /* Adjust image width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 20px;
 }
 
-.item-details {
-  margin-top: 15px;
+.cart-item-details {
+  flex: 1;
 }
 
-.item-details h3 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: bold;
-  color: #222;
+.cart-item-details h3 {
+  margin-top: 0;
 }
 
-.item-details p {
+.cart-item-details p {
   margin: 5px 0;
-  font-size: 16px;
-  color: #555;
 }
 
 .cart-total {
   margin-top: 20px;
-  font-size: 20px;
   font-weight: bold;
 }
 
 .checkout-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 20px;
-  background-color: #f0c14b;
-  color: #111;
-  font-size: 18px;
-  text-align: center;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .checkout-button:hover {
-  background-color: #ddb347;
+  background-color: #0056b3;
+}
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border: 1px solid #ccc; /* Add border */
+  padding: 10px; /* Add padding */
 }
 
-.quantity-buttons button {
-    padding: 0.3rem 0.5rem; /* Adjust as needed */
-    font-size: 0.8rem; /* Adjust as needed */
-    margin: 0 0.5rem; /* Adjust as needed */
-  }
-
-.quantity-buttons button:hover {
-  background-color: #48dbeb;
-} 
-
-.remove-button {
-  background-color: #ff483d;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
+.cart-item-details {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
 }
 
-.remove-button:hover {
-  background-color: #ff0d00;
+.cart-item-details h3 {
+  margin: 0;
 }
 
-.icon {
-  font-size: 8px;
+.cart-item-details p {
+  margin: 5px 0;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-control button {
+  margin: 0 3px;
+  padding: 5px 8px; /* Adjust padding to make buttons smaller */
+  font-size: 14px; /* Adjust font size to make buttons smaller */
 }
