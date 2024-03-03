@@ -85,6 +85,7 @@ const HomePage = ({cartItems, setCartItems}) => {
     }, 700);
 
     console.log(`Added item ${item._id} to cart`);
+    
   };
 
   // Function to handle proceeding to checkout with an item
@@ -130,18 +131,17 @@ const HomePage = ({cartItems, setCartItems}) => {
       <div className="items">
         {sortedItems.map((item) => (
           <div className="item-box" key={item._id}>
+            <h3>{item.itemName}</h3>
             <img
               src={`data:image/jpeg;base64,${item.itemPicture}`} // Replace "jpeg" if needed
               alt={item.itemName}
-              width="200"
-              height="200"
             />
-            <h3>{item.itemName}</h3>
-            <p>Price: ${Number(item.itemPrice).toFixed(2)}</p>
-            <p>{item.itemDescription}</p>
-            
+            <div className="item-details">  
+              <p>Price: ${Number(item.itemPrice).toFixed(2)}</p>
+              <p style={{ fontSize: '14px',maxHeight: '83px', overflowY: 'auto' }}>{item.itemDescription}</p>
+            </div>
             <p>Remains in stock: {item.itemAmount}</p>
-            <div>
+            <div className='item-buttons'>
               <button onClick={() => addToCart(item)}>Add to Cart</button>
               <button onClick={() => buyNow(item)}>Buy Now</button>
             </div>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
 import './LoginPage.css'
 
-function Login({ setIsLoggedIn }) {
+function Login({ setIsLoggedIn, setActiveUser}) {
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -26,6 +26,7 @@ function Login({ setIsLoggedIn }) {
       const response = await axios.post('http://localhost:3001/api/login', formData);
       console.log('Login successful:', response.data);
       // Handle successful login (redirect, display message, etc.)
+      setActiveUser(response.data.user);
       setIsLoggedIn(true);
       navigate("/");
     } catch (error) {
@@ -33,6 +34,7 @@ function Login({ setIsLoggedIn }) {
       // Handle login failure (display error message, reset form, etc.)
     }
   };
+
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
   //   try {

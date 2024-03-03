@@ -15,20 +15,21 @@ import Cart from './components/Cart/CartPage';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [activeUser, setActiveUser] = useState('');
+
 
 
   return (
     <Router>
       <div className="App">
       {isLoggedIn ? (
-        <UserNavbar />
+        <UserNavbar activeUser={activeUser}/>
       ) : (
         <GuestNavbar />
       )}
         <Routes>  
-          {/* <Route path="/mycart" element={<Cart/>}/> */}
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setActiveUser={setActiveUser}/>} />
         <Route path="/mycart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
         <Route path="/" element={<HomePage cartItems={cartItems} setCartItems={setCartItems} />} />
           {/* Other routes can be added here */}

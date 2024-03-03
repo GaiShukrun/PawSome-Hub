@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 
-function UserNavbar() {
+function UserNavbar({activeUser}) {
   return (
     <nav className="navbar">
       <ul className="navbar-nav">
@@ -14,7 +14,7 @@ function UserNavbar() {
           <Link to="/" className="nav-link">Logout</Link>
         </li>
         <li className="nav-item">
-          <Link to="/myaccount" className="nav-link">My account</Link>
+          <Link to="/myaccount" className="nav-link">{activeUser.username}</Link>
         </li>
         <li className="nav-item">
           <Link to="/mycart" className="nav-link">My cart</Link>
