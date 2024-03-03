@@ -96,11 +96,17 @@ const HomePage = ({cartItems, setCartItems,username}) => {
     console.error('Error adding item to cart:', error);
   }
 };
+  
+   
+//     setAddedItemIds([...addedItemIds, item._id]); // Add item ID to addedItemIds
+//     setTimeout(() => {
+//       // Remove item ID from addedItemIds after 0.7 seconds
+//       setAddedItemIds(addedItemIds.filter(id => id !== item._id));
+//     }, 700);
 
-  
-  
-  
-  
+//     console.log(`Added item ${item._id} to cart`);
+    
+//   };
 
   // Function to handle proceeding to checkout with an item
   const buyNow = (itemId) => {

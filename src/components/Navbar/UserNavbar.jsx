@@ -13,8 +13,6 @@ function UserNavbar({ setIsLoggedIn,username }) {
     setIsLoggedIn(false);
     
   };
-
-
   return (
     <nav className="navbar">
       <ul className="navbar-nav">

@@ -33,8 +33,7 @@ function App() {
       ) : (
         <GuestNavbar />
       )}
-        <Routes>  
-          
+        <Routes>            
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}  />} />
         <Route path="/mycart" element={<Cart username={username}  />} />

@@ -7,6 +7,7 @@ import { NameContext } from "../../App";
 import { useCookies } from 'react-cookie';
 import HomePage from '../Home/HomePage';
 function Login({ setIsLoggedIn }) {
+
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -33,7 +34,6 @@ function Login({ setIsLoggedIn }) {
       setCookie('token', response.data.token, { path: '/' });
       // Handle successful login (redirect, display message, etc.)
       setCookie('username', formData.username.toString(), { path: '/' });
-      
       setIsLoggedIn(true);
       // console.log(formData.username.toString());
       navigate("/");
@@ -42,7 +42,6 @@ function Login({ setIsLoggedIn }) {
       // Handle login failure (display error message, reset form, etc.)
     }
   };
-  
 
   return (
     <div className="login-container" >
