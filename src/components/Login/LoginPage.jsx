@@ -8,6 +8,8 @@ import { useCookies } from 'react-cookie';
 import HomePage from '../Home/HomePage';
 function Login({ setIsLoggedIn }) {
 
+  const [error, setError] = useState(''); // Define error state
+
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -38,14 +40,20 @@ function Login({ setIsLoggedIn }) {
       // console.log(formData.username.toString());
       navigate("/");
     } catch (error) {
+      if (error.response && error.response.data && error.response.data.error) {
+        setError(error.response.data.error); // Set the error message
+      }
+      else {
       console.error('Login failed:', error.response.data);
       // Handle login failure (display error message, reset form, etc.)
+      }
     }
   };
 
   return (
     <div className="login-container" >
       <h2>Login</h2>
+      {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
