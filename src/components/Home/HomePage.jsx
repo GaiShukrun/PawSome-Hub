@@ -4,6 +4,7 @@ import './HomePage.css';
 import axios from 'axios';
 
 
+
 const HomePage = ({cartItems, setCartItems,username}) => {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -163,7 +164,7 @@ const HomePage = ({cartItems, setCartItems,username}) => {
           <div className="item-box" key={item._id}>
             <h3>{item.itemName}</h3>
             <img
-              src={`data:image/jpeg;base64,${item.itemPicture}`} // Replace "jpeg" if needed
+              src= {'/images/' + item.itemPicture}
               alt={item.itemName}
             />
             <div className="item-details">  
@@ -176,7 +177,6 @@ const HomePage = ({cartItems, setCartItems,username}) => {
               <button onClick={() => addToCart(item)}>Add to Cart</button>
               <button onClick={() => buyNow(item)}>Buy Now</button>
             </div>
-
 
             {/* Debugging statements */}
             {console.log('addedItemIds:', addedItemIds)}

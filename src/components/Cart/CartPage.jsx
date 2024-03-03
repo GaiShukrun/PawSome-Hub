@@ -111,7 +111,7 @@ const CartPage = ({ username }) => {
       <div className="cart-item" key={item._id}>
         <div className="cart-item-details">
           <img
-            src={`data:image/jpeg;base64,${item.itemPicture}`}
+            src= {'/images/' + item.itemPicture}
             alt={item.itemName}
           />
           <div>
