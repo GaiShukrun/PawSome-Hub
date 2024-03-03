@@ -24,6 +24,7 @@ app.get('/api/get-featured-items', async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch featured items' });
     }
 });
+
 app.get('/api/cart/:username', async (req, res) => {
     try {
       const { username } = req.params;
@@ -49,18 +50,25 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
   // Route to handle adding items to the cart
   app.post('/api/addToCart', async (req, res) => {
     try {
-        const { username, itemId, itemName, itemPicture, itemDescription, itemPrice, quantity } = req.body;
-  
+      const { username, itemId, itemName, itemPicture, itemDescription, itemPrice, quantity } = req.body;
       // Check if the item is already in the cart
       let cartItem = await CartItem.findOne({ username, itemId });
+      let item = await ItemModel.findById(itemId);
   
       if (cartItem) {
-        // If the item already exists in the cart, update the quantity
-        cartItem.quantity += quantity;
-        await cartItem.save();
+        if (cartItem.quantity < item.itemAmount){
+          cartItem.quantity += 1;
+          await cartItem.save();
+          res.status(200).json(cartItem);
+        }
+        else {
+          res.status(203).json( {error: 'You added the maximum amount' });
+        }// If the item already exists in the cart, update the quantity
+        
       } else {
         // If the item doesn't exist in the cart, create a new cart item
         
@@ -75,18 +83,19 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
             quantity 
           });
         await cartItem.save();
+        res.status(201).json(cartItem);
       }
   
-      res.status(201).json(cartItem);
+      
     } catch (error) {
       console.error('Error adding item to cart:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
   
+ 
 
-  
-  //
+
 
 app.post('/api/signup', async (req, res) => {
     try {
@@ -112,16 +121,16 @@ app.post('/api/login', async (req, res) => {
         // Find user by username
         const user = await UsersModel.findOne({ username });
         if (!user) {
-            return res.status(401).json({ error: 'Invalid username or password USERNAME' });
+            return res.status(401).json({ error: 'Invalid username or password' });
         }
         // Compare password
         // const isPasswordValid = await bcrypt.compare(password, user.password);
         const isPasswordValid = password == user.password;
         if (!isPasswordValid) {
-            return res.status(401).json({ error: 'Invalid username or password PASSWORD' });
+            return res.status(401).json({ error: 'Invalid username or password' });
         }
         // Login successful
-        res.status(200).json({ message: 'Login successful',user});
+        res.status(200).json({ message: 'Login successful'});
     
     } catch (error) {
         console.error('Login error:', error);
@@ -154,14 +163,16 @@ app.put('/api/cart/increaseQuantity/:itemId', async (req, res) => {
       res.status(200).json({ message: 'Item quantity increased successfully', cartItem });
       }
       else{
-
-        res.status(202).json({ message: 'exceed item Amount in store' });
+        res.status(202).json({ error: 'You added the maximum amount' });
       }
     } catch (error) {
       console.error('Error increasing item quantity:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+
+
 
   // Decrease item quantity in the cart
   app.put('/api/cart/decreaseQuantity/:itemId', async (req, res) => {
@@ -173,8 +184,8 @@ app.put('/api/cart/increaseQuantity/:itemId', async (req, res) => {
       }
       if (cartItem.quantity === 1) {
         // If quantity is already 1, remove the item from the cart
-        await CartItem.findByIdAndDelete(itemId);
-        return res.status(200).json({ message: 'Item removed from cart' });
+        // await CartItem.findByIdAndDelete(itemId);
+        return res.status(201).json({ message: 'Item removed from cart' });
       }
       cartItem.quantity--;
       await cartItem.save();
@@ -184,6 +195,8 @@ app.put('/api/cart/increaseQuantity/:itemId', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+
   app.put('/api/cart/removeItem/:itemId', async (req, res) => {
     try {
       const { itemId } = req.params;
