@@ -1,16 +1,19 @@
 
 import React, { useState, useEffect } from 'react';
 import './HomePage.css';
+import axios from 'axios';
 
-const HomePage = ({cartItems, setCartItems}) => {
+
+const HomePage = ({cartItems, setCartItems,username}) => {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [petSearch, setPetSearch] = useState(''); // New state for pet type search
   const [sortByPrice, setSortByPrice] = useState(''); // Default sort: null
   const [addedItemIds, setAddedItemIds] = useState([]); // State variable to track added item IDs
-
+  
   useEffect(() => {
     fetchFeaturedItems();
+    
   }, []);
 
 
@@ -22,7 +25,8 @@ const HomePage = ({cartItems, setCartItems}) => {
         throw new Error('Failed to fetch featured items');
       }
       const data = await response.json();
-      setFeaturedItems(data);
+      const filteredData = data.filter(item => item.itemAmount > 0);
+      setFeaturedItems(filteredData);
     } catch (error) {
       console.error('Error fetching featured items:', error);
     }
@@ -63,35 +67,52 @@ const HomePage = ({cartItems, setCartItems}) => {
   });
 
 
-  // Function to handle adding an item to the cart
-  const addToCart = (item) => {
-    // Check if the item is already in the cart
-    const existingItem = cartItems.find(cartItem => cartItem._id === item._id);
-    if (existingItem) {
-      // If the item is already in the cart, increase its quantity
-      const updatedCartItems = cartItems.map(cartItem =>
-        cartItem._id === item._id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
-      );
-      setCartItems(updatedCartItems);
+
+ const addToCart = async (item) => {
+  try {
+    const existingCartItem = cartItems.find((cartItem) => cartItem.username === username && cartItem.itemId === item._id);
+    if (existingCartItem) {
+      const updatedQuantity = existingCartItem.quantity + 1;
+      await axios.put(`http://localhost:3001/api/updateCartItem/${existingCartItem._id}`, { quantity: updatedQuantity });
+      setCartItems(prevCartItems => prevCartItems.map(cartItem =>
+        cartItem._id === existingCartItem._id ? { ...cartItem, quantity: updatedQuantity } : cartItem
+      ));
     } else {
-      // If the item is not in the cart, add it with quantity 1
-      setCartItems([...cartItems, { ...item, quantity: 1 }]);
+      // const newCartItem = { username: username, itemId: item._id, quantity: 1,itemPrice: item.itemPrice };
+      const newCartItem = { 
+        username: username, 
+        itemId: item._id, 
+        itemName: item.itemName, // Add itemName
+        itemPicture: item.itemPicture, // Add itemPicture
+        itemDescription: item.itemDescription, // Add itemDescription
+        itemPrice: item.itemPrice, 
+        quantity: 1 
+      };
+      const response = await axios.post('http://localhost:3001/api/addToCart', newCartItem);
+      setCartItems(prevCartItems => [...prevCartItems, response.data]);
     }
+    setAddedItemIds(prevAddedItemIds => [...prevAddedItemIds, item._id]);
+  } catch (error) {
+    console.error('Error adding item to cart:', error);
+  }
+};
+  
+   
+//     setAddedItemIds([...addedItemIds, item._id]); // Add item ID to addedItemIds
+//     setTimeout(() => {
+//       // Remove item ID from addedItemIds after 0.7 seconds
+//       setAddedItemIds(addedItemIds.filter(id => id !== item._id));
+//     }, 700);
 
-    setAddedItemIds([...addedItemIds, item._id]); // Add item ID to addedItemIds
-    setTimeout(() => {
-      // Remove item ID from addedItemIds after 0.7 seconds
-      setAddedItemIds(addedItemIds.filter(id => id !== item._id));
-    }, 700);
-
-    console.log(`Added item ${item._id} to cart`);
+//     console.log(`Added item ${item._id} to cart`);
     
-  };
+//   };
 
   // Function to handle proceeding to checkout with an item
   const buyNow = (itemId) => {
     // Implement your logic to proceed to checkout with the item
     console.log(`Proceeding to checkout with item ${itemId}`);
+    console.log(username + '5555');
   };
   
 
