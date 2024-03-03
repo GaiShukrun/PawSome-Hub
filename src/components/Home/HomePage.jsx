@@ -10,6 +10,10 @@ const HomePage = ({cartItems, setCartItems,username}) => {
   const [petSearch, setPetSearch] = useState(''); // New state for pet type search
   const [sortByPrice, setSortByPrice] = useState(''); // Default sort: null
   const [addedItemIds, setAddedItemIds] = useState([]); // State variable to track added item IDs
+
+  const [error, setError] = useState(''); 
+  const [errorItemId, setErrorItemId] = useState(null);
+
   
   useEffect(() => {
     fetchFeaturedItems();
@@ -68,45 +72,50 @@ const HomePage = ({cartItems, setCartItems,username}) => {
 
 
 
- const addToCart = async (item) => {
-  try {
-    const existingCartItem = cartItems.find((cartItem) => cartItem.username === username && cartItem.itemId === item._id);
-    if (existingCartItem) {
-      const updatedQuantity = existingCartItem.quantity + 1;
-      await axios.put(`http://localhost:3001/api/updateCartItem/${existingCartItem._id}`, { quantity: updatedQuantity });
-      setCartItems(prevCartItems => prevCartItems.map(cartItem =>
-        cartItem._id === existingCartItem._id ? { ...cartItem, quantity: updatedQuantity } : cartItem
-      ));
-    } else {
-      // const newCartItem = { username: username, itemId: item._id, quantity: 1,itemPrice: item.itemPrice };
-      const newCartItem = { 
-        username: username, 
-        itemId: item._id, 
-        itemName: item.itemName, // Add itemName
-        itemPicture: item.itemPicture, // Add itemPicture
-        itemDescription: item.itemDescription, // Add itemDescription
-        itemPrice: item.itemPrice, 
-        quantity: 1 
-      };
-      const response = await axios.post('http://localhost:3001/api/addToCart', newCartItem);
-      setCartItems(prevCartItems => [...prevCartItems, response.data]);
-    }
-    setAddedItemIds(prevAddedItemIds => [...prevAddedItemIds, item._id]);
-  } catch (error) {
-    console.error('Error adding item to cart:', error);
-  }
-};
-  
-   
-//     setAddedItemIds([...addedItemIds, item._id]); // Add item ID to addedItemIds
-//     setTimeout(() => {
-//       // Remove item ID from addedItemIds after 0.7 seconds
-//       setAddedItemIds(addedItemIds.filter(id => id !== item._id));
-//     }, 700);
+  const SetAddedItemIds = async (item) => {
+  // setAddedItemIds(prevAddedItemIds => [...prevAddedItemIds, item._id]);
+  setAddedItemIds([...addedItemIds, item._id]); // Add item ID to addedItemIds
+  setTimeout(() => {
+    // Remove item ID from addedItemIds after 0.7 seconds
+    setAddedItemIds(addedItemIds.filter(id => id !== item._id));
+  }, 700);
 
-//     console.log(`Added item ${item._id} to cart`);
-    
-//   };
+  console.log(`Added item ${item._id} to cart`);
+}
+
+ const addToCart = async (item) => {
+
+  const newCartItem = { 
+    username: username, 
+    itemId: item._id, 
+    itemName: item.itemName, // Add itemName
+    itemPicture: item.itemPicture, // Add itemPicture
+    itemDescription: item.itemDescription, // Add itemDescription
+    itemPrice: item.itemPrice,
+    quantity:1
+  };
+  
+  try {
+    const response = await axios.post('http://localhost:3001/api/addToCart', newCartItem);
+    // setCartItems(prevCartItems => [...prevCartItems, response.data]);
+    if (response.status == 200 || response.status == 201){
+      SetAddedItemIds(item);
+    }
+    else if (response.status == 203){
+      setErrorItemId(item._id);
+      setError(response.data.error);
+      setTimeout(() => {
+        setErrorItemId(null);
+        setError('');
+      }, 2000); // Clear error after 2 seconds
+    }
+  }
+  catch (error) {
+  console.error('Error adding item to cart:', error);
+  }
+ };
+
+
 
   // Function to handle proceeding to checkout with an item
   const buyNow = (itemId) => {
@@ -161,17 +170,22 @@ const HomePage = ({cartItems, setCartItems,username}) => {
               <p>Price: ${Number(item.itemPrice).toFixed(2)}</p>
               <p style={{ fontSize: '14px',maxHeight: '83px', overflowY: 'auto' }}>{item.itemDescription}</p>
             </div>
+
             <p>Remains in stock: {item.itemAmount}</p>
             <div className='item-buttons'>
               <button onClick={() => addToCart(item)}>Add to Cart</button>
               <button onClick={() => buyNow(item)}>Buy Now</button>
             </div>
+
+
             {/* Debugging statements */}
             {console.log('addedItemIds:', addedItemIds)}
             {console.log('item._id:', item._id)}
             {console.log('CART:', cartItems)}
             {/* Render message below the item */}
-            {addedItemIds.includes(item._id) && <div>Item added to your cart</div>}
+            {addedItemIds.includes(item._id) && <div style={{ color: 'green' }}>Item added to your cart</div>}
+            {errorItemId === item._id && <div className="error-message">{error}</div>}
+            {}
           </div>
         ))}
       </div>
