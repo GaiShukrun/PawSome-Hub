@@ -5,6 +5,10 @@ import './CartPage.css';
 const CartPage = ({ username }) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [error, setError] = useState(''); // Define error state
+  const [errorItemId, setErrorItemId] = useState(null);
+
+
 
 
   const increaseQuantity = async (itemId) => {
@@ -16,6 +20,14 @@ const CartPage = ({ username }) => {
           item._id === itemId ? { ...item, quantity: item.quantity + 1 } : item
         );
         setCartItems(updatedCartItems);
+      }
+      if (response.status == 202){
+        setErrorItemId(itemId);
+        setError(response.data.error);
+        setTimeout(() => {
+          setErrorItemId(null);
+          setError('');
+        }, 2000); // Clear error after 2 seconds
       }
     } catch (error) {
       if (error.response && error.response.status === 202) {
@@ -36,7 +48,10 @@ const CartPage = ({ username }) => {
         const updatedCartItems = cartItems.map(item =>
           item._id === itemId ? { ...item, quantity: item.quantity - 1 } : item
         );
-        setCartItems(updatedCartItems.filter(item => item.quantity > 0)); // Remove items with quantity 0
+        setCartItems(updatedCartItems.filter(item => item.quantity > 0)); // Refresh
+      }
+      if (response.status === 201){
+        DeleteItemCart(itemId);
       }
     } catch (error) {
       console.error('Error decreasing quantity:', error);
@@ -45,15 +60,19 @@ const CartPage = ({ username }) => {
   
   const DeleteItemCart = async (itemId) => {
     try {
-      const response = await axios.put(`http://localhost:3001/api/cart/removeItem/${itemId}`);
-      if (response.status === 200) {
-        const updatedCartItems = cartItems.filter(item => item._id !== itemId);
-        setCartItems(updatedCartItems);
+      if (window.confirm('Are you sure you want to remove this item from the cart?')){
+        const response = await axios.put(`http://localhost:3001/api/cart/removeItem/${itemId}`);
+        if (response.status === 200) {
+          const updatedCartItems = cartItems.filter(item => item._id !== itemId);
+          setCartItems(updatedCartItems);
+        }
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Error removing item from cart:', error);
     }
   };
+
   useEffect(() => {
     // Calculate total price whenever cartItems change
     let total = 0;
@@ -94,8 +113,6 @@ const CartPage = ({ username }) => {
           <img
             src={`data:image/jpeg;base64,${item.itemPicture}`}
             alt={item.itemName}
-            width="200"
-            height="200"
           />
           <div>
             <h3>{item.itemName}</h3>
@@ -103,6 +120,7 @@ const CartPage = ({ username }) => {
           </div>
         </div>
         <div className="quantity-control">
+          {errorItemId === item._id && <div className="error-message">{error}</div>}
           <button onClick={() => decreaseQuantity(item._id)}>-</button>
           <p>Quantity: {item.quantity}</p>
           <button onClick={() => increaseQuantity(item._id)}>+</button>

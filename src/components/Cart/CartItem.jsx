@@ -3,6 +3,7 @@ import './CartPage.css'
 import { FaMinus, FaPlus } from 'react-icons/fa'; // Import icons from react-icons library
 
 
+
 function CartItem({ item, cartItems, setCartItems}) {
 
     const handleRemoveFromCart = (itemId) => {
@@ -46,7 +47,8 @@ function CartItem({ item, cartItems, setCartItems}) {
     <div className="cart-item">
       <img
         src={`data:image/jpeg;base64,${item.itemPicture}`} // Replace "jpeg" if needed
-        alt={item.itemName} />
+        alt={item.itemName}
+      />
       <div className="item-details">
         <h3>{item.itemName}</h3>
         <p>Price: ${item.itemPrice}</p>
