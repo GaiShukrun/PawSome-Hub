@@ -73,14 +73,8 @@ const CartPage = ({ username }) => {
     }
   };
 
-  useEffect(() => {
-    // Calculate total price whenever cartItems change
-    let total = 0;
-    cartItems.forEach(item => {
-      total += item.itemPrice * item.quantity;
-    });
-    setTotalPrice(total);
-  }, [cartItems]);
+
+ 
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -88,11 +82,12 @@ const CartPage = ({ username }) => {
         // Fetch cart items from the server
         const response = await fetch(`http://localhost:3001/api/cart/${username}`);
         if (!response.ok) {
-                throw new Error('Failed to fetch featured items');
-              }
-              const data = await response.json();
-        setCartItems(data);
-        
+          throw new Error('Failed to fetch featured items');
+        }
+        const data = await response.json();
+        if (data.length > 0) {
+          setCartItems(data);
+        }
       } catch (error) {
         console.error('Error fetching cart items:', error);
       }
@@ -101,8 +96,19 @@ const CartPage = ({ username }) => {
     fetchCartItems(); // Fetch cart items when component mounts
   }, [username]); // Fetch cart items whenever the username changes
 
+
+  useEffect(() => {
+    // Calculate total price whenever cartItems change
+    let total = 0;
+    cartItems.forEach(item => {
+      total += item.itemPrice * item.quantity;
+    });
+    setTotalPrice(total);
+    console.log(total,cartItems);
+  }, [cartItems]);
+
+
   const Checkout = async (username) =>{
-    
     navigate(`/CheckoutPage/${username}`,{ state: { flag: true }});
   }
  
@@ -137,22 +143,8 @@ const CartPage = ({ username }) => {
             ))}
           </div>
           <div className="cart-total">Total Price: ${totalPrice.toFixed(2)}</div>
-          <button className="checkout-button">Checkout</button>
+          <button onClick={()=> Checkout(username)}>Checkout</button>
         </div>
-        <div className="quantity-control">
-          {errorItemId === item._id && <div className="error-message">{error}</div>}
-          <button onClick={() => decreaseQuantity(item._id)}>-</button>
-          <p>Quantity: {item.quantity}</p>
-          <button onClick={() => increaseQuantity(item._id)}>+</button>
-          <button onClick={()=> DeleteItemCart(item._id)}>Remove</button>
-        </div>
-        
-      </div>
-    ))}
-      </div>
-      <div 
-      className="cart-total">Total Price: ${totalPrice.toFixed(2)}</div>
-      <button onClick={()=> Checkout(username)}>Checkout</button>
       ) : (
         <div>
           <h4>Your cart is empty.</h4>
@@ -160,7 +152,6 @@ const CartPage = ({ username }) => {
         </div>
       )}
     </div>
-    
   );
     
 };
