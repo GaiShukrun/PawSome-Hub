@@ -9,7 +9,6 @@ const CartPage = ({ username }) => {
   const [error, setError] = useState(''); // Define error state
   const [errorItemId, setErrorItemId] = useState(null);
 
-
   const navigate = useNavigate (); 
 
   const increaseQuantity = async (itemId) => {
@@ -109,19 +108,36 @@ const CartPage = ({ username }) => {
  
   return (
     <div>
-      <h2>{username } Cart</h2>
-      <div className="cart-items">
-         {cartItems.map((item) => (
-      <div className="cart-item" key={item._id}>
-        <div className="cart-item-details">
-          <img
-            src= {'/images/' + item.itemPicture}
-            alt={item.itemName}
-          />
-          <div>
-            <h3>{item.itemName}</h3>
-            <p>Price: ${item.itemPrice}</p>
+      <h2>My Cart</h2>
+      {totalPrice > 0 ? (
+        <div>
+          <div className="cart-items">
+            {cartItems.map((item) => (
+              <div className="cart-item" key={item._id}>
+                <div className="cart-item-details">
+                  <img
+                    src={'/images/' + item.itemPicture}
+                    alt={item.itemName}
+                  />
+                  <div>
+                    <h3>{item.itemName}</h3>
+                    <p>Price: ${item.itemPrice}</p>
+                  </div>
+                </div>
+                <div className="quantity-control">
+                  {errorItemId === item._id && (
+                    <div className="error-message">{error}</div>
+                  )}
+                  <button onClick={() => decreaseQuantity(item._id)}>-</button>
+                  <p>Quantity: {item.quantity}</p>
+                  <button onClick={() => increaseQuantity(item._id)}>+</button>
+                  <button onClick={() => DeleteItemCart(item._id)}>Remove</button>
+                </div>
+              </div>
+            ))}
           </div>
+          <div className="cart-total">Total Price: ${totalPrice.toFixed(2)}</div>
+          <button className="checkout-button">Checkout</button>
         </div>
         <div className="quantity-control">
           {errorItemId === item._id && <div className="error-message">{error}</div>}
@@ -137,9 +153,16 @@ const CartPage = ({ username }) => {
       <div 
       className="cart-total">Total Price: ${totalPrice.toFixed(2)}</div>
       <button onClick={()=> Checkout(username)}>Checkout</button>
+      ) : (
+        <div>
+          <h4>Your cart is empty.</h4>
+          <p>Click <a href="/">here</a> to start shopping.</p>
+        </div>
+      )}
     </div>
     
   );
+    
 };
 
 export default CartPage;

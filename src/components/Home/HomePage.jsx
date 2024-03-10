@@ -7,6 +7,7 @@ import { useCookies } from 'react-cookie';
 import emailjs from 'emailjs-com';
 import { waitFor } from '@testing-library/react';
 
+
 const HomePage = ({cartItems, setCartItems,username}) => {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -18,6 +19,7 @@ const HomePage = ({cartItems, setCartItems,username}) => {
   const [errorItemId, setErrorItemId] = useState(null);
   const [cookies, setCookie] = useCookies(['itemId', 'itemLength']);
   const [itemsLength, setItemsLength] = useState(0);
+  
   useEffect(() => {
     fetchFeaturedItems();
     const interval = setInterval(() => {
@@ -180,6 +182,7 @@ const HomePage = ({cartItems, setCartItems,username}) => {
       SetAddedItemIds(item);
     }
     else if (response.status == 203){
+
       setErrorItemId(item._id);
       setError(response.data.error);
       setTimeout(() => {
@@ -243,7 +246,7 @@ const HomePage = ({cartItems, setCartItems,username}) => {
           <div className="item-box" key={item._id}>
             <h3>{item.itemName}</h3>
             <img
-              src= {'/images/' + item.itemPicture} // Replace "jpeg" if needed
+              src= {'/images/' + item.itemPicture}
               alt={item.itemName}
             />
             <div className="item-details">  
@@ -254,6 +257,9 @@ const HomePage = ({cartItems, setCartItems,username}) => {
             {item.itemAmount > 0 && (
               <div> 
             <p>Remains in stock: {item.itemAmount}</p>
+
+            
+            { username ? (
             <div className='item-buttons'>
             <button onClick={() => addToCart(item)}>Add to Cart</button>
             <button onClick={() => buyNow(item)}>Buy Now</button>
@@ -264,12 +270,11 @@ const HomePage = ({cartItems, setCartItems,username}) => {
             {item.itemAmount <= 0 && (
             <p style={{ color: 'red' }}>Out of order</p>
             )}
-            {/* <div className='item-buttons'>
-              <button onClick={() => addToCart(item)}>Add to Cart</button>
-              <button onClick={() => buyNow(item)}>Buy Now</button>
-            </div> */}
-
-
+ 
+            </div>
+            ) : (
+              <p style={{ fontWeight: 'bold' }} >Login to add to cart!</p>
+            )}
             {/* Debugging statements */}
             {/* {console.log('addedItemIds:', addedItemIds)}
             {console.log('item._id:', item._id)}

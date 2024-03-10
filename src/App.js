@@ -30,7 +30,8 @@ function App() {
     <Router>
       <div className="App">
       {isLoggedIn ? (
-        <UserNavbar setIsLoggedIn={setIsLoggedIn} username={username} />
+        <UserNavbar setIsLoggedIn={setIsLoggedIn}
+                    username={username} />
       ) : (
         <GuestNavbar />
       )}
@@ -40,7 +41,9 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}  />} />
         <Route path="/mycart" element={<Cart username={username}  />} />
-        <Route path="/" element={<HomePage cartItems={cartItems} setCartItems={setCartItems} username={username}  />} />
+        <Route path="/" element={<HomePage  cartItems={cartItems}
+                                            setCartItems={setCartItems}
+                                            username={username}  />} />
           {/* Other routes can be added here */}
         </Routes>
       </div>

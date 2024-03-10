@@ -39,6 +39,7 @@ app.get('/api/get-featured-items', async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch featured items' });
     }
 });
+
 app.get('/api/get-featured-items/:itemId', async (req, res) => {
   try {
     const { itemId } = req.params;
@@ -85,8 +86,6 @@ app.get('/api/carts/:username', async (req, res) => {
   }
 });
 
-
-
 app.get('/api/cart/:username', async (req, res) => {
     try {
       const { username } = req.params;
@@ -112,6 +111,7 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
   app.get('/api/Buynow/:itemId', async (req, res) => {
     try {
       const { itemId } = req.params;
@@ -168,7 +168,6 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
         await cartItem.save();
         res.status(201).json(cartItem);
       }
-  
       
     } catch (error) {
       console.error('Error adding item to cart:', error);
@@ -177,8 +176,6 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
   });
   
  
-
-
 
 app.post('/api/signup', async (req, res) => {
     try {
@@ -243,7 +240,7 @@ app.post('/api/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid username or password' });
         }
         // Login successful
-        res.status(200).json({ message: 'Login successful',user});
+        res.status(200).json({ message: 'Login successful'});
     
     } catch (error) {
         console.error('Login error:', error);
