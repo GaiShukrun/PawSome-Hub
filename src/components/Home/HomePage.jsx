@@ -202,8 +202,10 @@ const HomePage = ({cartItems, setCartItems,username}) => {
   const buyNow = async (itemId) => {
     
     const randomParam = Math.random(); // Generate a random number
+    console.log(username,itemId._id)
     setCookie('itemId', itemId._id, { path: '/CheckoutPage', expires: 0, search: `?rand=${randomParam}` }); // Append random parameter to URL
     navigate(`/CheckoutPage/${username}`, { state: { flag: false } });
+    
  //, expires: 0, search: `?rand=${randomParam}`
   };
   
@@ -254,31 +256,26 @@ const HomePage = ({cartItems, setCartItems,username}) => {
               <p style={{ fontSize: '14px',maxHeight: '83px', overflowY: 'auto' }}>{item.itemDescription}</p>
             </div>
 
-            {item.itemAmount > 0 && (
-              <div> 
             <p>Remains in stock: {item.itemAmount}</p>
-
             
             { username ? (
+              item.itemAmount > 0 ? (
             <div className='item-buttons'>
-            <button onClick={() => addToCart(item)}>Add to Cart</button>
-            <button onClick={() => buyNow(item)}>Buy Now</button>
-          </div>
-          </div>
-            )}
-            
-            {item.itemAmount <= 0 && (
-            <p style={{ color: 'red' }}>Out of order</p>
-            )}
- 
+              <button onClick={() => addToCart(item)}>Add to Cart</button>
+              <button onClick={() => buyNow(item)}>Buy Now</button>
             </div>
+              ) : (
+                <p style={{ fontWeight: 'bold',color:'red' }} >Out of stock!</p>
+              )
+
             ) : (
               <p style={{ fontWeight: 'bold' }} >Login to add to cart!</p>
             )}
+
             {/* Debugging statements */}
-            {/* {console.log('addedItemIds:', addedItemIds)}
+            {console.log('addedItemIds:', addedItemIds)}
             {console.log('item._id:', item._id)}
-            {console.log('CART:', cartItems)} */}
+            {console.log('CART:', cartItems)}
             {/* Render message below the item */}
             {addedItemIds.includes(item._id) && <div style={{ color: 'green' }}>Item added to your cart</div>}
             {errorItemId === item._id && <div className="error-message">{error}</div>}
@@ -288,6 +285,8 @@ const HomePage = ({cartItems, setCartItems,username}) => {
       </div>
     </div>
   );
+
+
 };
 
 export default HomePage;
