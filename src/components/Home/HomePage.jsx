@@ -1,8 +1,11 @@
 
+import { useNavigate  } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import axios from 'axios';
-
+import { useCookies } from 'react-cookie';
+import emailjs from 'emailjs-com';
+import { waitFor } from '@testing-library/react';
 
 
 const HomePage = ({cartItems, setCartItems,username}) => {
@@ -11,17 +14,92 @@ const HomePage = ({cartItems, setCartItems,username}) => {
   const [petSearch, setPetSearch] = useState(''); // New state for pet type search
   const [sortByPrice, setSortByPrice] = useState(''); // Default sort: null
   const [addedItemIds, setAddedItemIds] = useState([]); // State variable to track added item IDs
-
+  const navigate = useNavigate ();
   const [error, setError] = useState(''); 
   const [errorItemId, setErrorItemId] = useState(null);
-
+  const [cookies, setCookie] = useCookies(['itemId', 'itemLength']);
+  const [itemsLength, setItemsLength] = useState(0);
   
   useEffect(() => {
     fetchFeaturedItems();
+    const interval = setInterval(() => {
+      checkForNewItems();
+    }, 20000); // Check every 1 minute
+
+    // Perform initial check when the component mounts
+    checkForNewItems();
+
+    return () => {
+      clearInterval(interval);
+    };
     
   }, []);
+  const checkForNewItems = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/get-featured-items');
+      const latestItems = response.data;
+      const latestItemsLength = latestItems.length;
 
+      // Get the previous length of items from cookies
+      const prevItemsLength = parseInt(cookies.itemLength) || 0;
+      console.log(latestItemsLength +' ? '+prevItemsLength)
+        if(latestItemsLength < prevItemsLength){
+          window.location.reload();
+        }
+        if (latestItemsLength > prevItemsLength) {
+          // Trigger notification mechanism (e.g., send emails)
+          console.log('New items found:', latestItems);
+            const usersResponse = await axios.get('http://localhost:3001/api/users');
+            const users = usersResponse.data;
+            const newItem = latestItems[latestItems.length - 1];
+            for (const user of users) {
+              const templateParams = {
+                from_name:'MyPetShop',
+                to_name: user.username,
+                to_email: user.email, // Assuming there's an email field in the user object
+                subject: 'New item added!',
+                message: `New item has been added to the store:\n\nItem Name: ${newItem.itemName}\nDescription: ${newItem.itemDescription}\nPrice: ${newItem.itemPrice}$`
+              };
+              sendEmail(templateParams);
+              setCookie('itemLength', latestItemsLength.toString(), { path: '/' });
+              setItemsLength(latestItemsLength);
+            }
 
+            setTimeout(() => {
+              window.location.reload();
+              
+            }, 5000);
+          // Implement notification logic here
+        } else   {
+          
+          console.log('No new items found.');
+          // window.location.reload();
+        }
+    
+
+      // Update the cookie with the latest length of items
+      setCookie('itemLength', latestItemsLength.toString(), { path: '/' });
+      setItemsLength(latestItemsLength);
+    } catch (error) {
+      console.error('Error checking for new items:', error);
+    }
+  };
+ 
+  
+  
+
+  const sendEmail = (templateParams) => {
+        
+    emailjs.send('service_dnd346u', 'template_hs3zhpf', templateParams, 'A2IZK0tl7FBZIOKIs')
+      .then((response) => {
+        console.log('Email sent successfully:', response);
+      })
+      .catch((error) => {
+        console.error('Email sending failed:', error);
+      });
+  };
+  
+  
   // Function to fetch featured items from the server
   const fetchFeaturedItems = async () => {
     try {
@@ -30,8 +108,9 @@ const HomePage = ({cartItems, setCartItems,username}) => {
         throw new Error('Failed to fetch featured items');
       }
       const data = await response.json();
-      const filteredData = data.filter(item => item.itemAmount > 0);
-      setFeaturedItems(filteredData);
+      // const filteredData = data.filter(item => item.itemAmount > 0);
+
+      setFeaturedItems(data);
     } catch (error) {
       console.error('Error fetching featured items:', error);
     }
@@ -99,10 +178,11 @@ const HomePage = ({cartItems, setCartItems,username}) => {
   try {
     const response = await axios.post('http://localhost:3001/api/addToCart', newCartItem);
     // setCartItems(prevCartItems => [...prevCartItems, response.data]);
-    if (response.status === 200 || response.status === 201){
+    if (response.status == 200 || response.status == 201){
       SetAddedItemIds(item);
     }
-    else if (response.status === 203){
+    else if (response.status == 203){
+
       setErrorItemId(item._id);
       setError(response.data.error);
       setTimeout(() => {
@@ -119,10 +199,12 @@ const HomePage = ({cartItems, setCartItems,username}) => {
 
 
   // Function to handle proceeding to checkout with an item
-  const buyNow = (itemId) => {
-    // Implement your logic to proceed to checkout with the item
-    console.log(`Proceeding to checkout with item ${itemId}`);
-    console.log(username + '5555');
+  const buyNow = async (itemId) => {
+    
+    const randomParam = Math.random(); // Generate a random number
+    setCookie('itemId', itemId._id, { path: '/CheckoutPage', expires: 0, search: `?rand=${randomParam}` }); // Append random parameter to URL
+    navigate(`/CheckoutPage/${username}`, { state: { flag: false } });
+ //, expires: 0, search: `?rand=${randomParam}`
   };
   
 
@@ -171,22 +253,32 @@ const HomePage = ({cartItems, setCartItems,username}) => {
               <p>Price: ${Number(item.itemPrice).toFixed(2)}</p>
               <p style={{ fontSize: '14px',maxHeight: '83px', overflowY: 'auto' }}>{item.itemDescription}</p>
             </div>
+
+            {item.itemAmount > 0 && (
+              <div> 
             <p>Remains in stock: {item.itemAmount}</p>
 
             
             { username ? (
             <div className='item-buttons'>
-              <button onClick={() => addToCart(item)}>Add to Cart</button>
-              <button onClick={() => buyNow(item)}>Buy Now</button>
+            <button onClick={() => addToCart(item)}>Add to Cart</button>
+            <button onClick={() => buyNow(item)}>Buy Now</button>
+          </div>
+          </div>
+            )}
+            
+            {item.itemAmount <= 0 && (
+            <p style={{ color: 'red' }}>Out of order</p>
+            )}
+ 
             </div>
             ) : (
               <p style={{ fontWeight: 'bold' }} >Login to add to cart!</p>
             )}
-
             {/* Debugging statements */}
-            {console.log('addedItemIds:', addedItemIds)}
+            {/* {console.log('addedItemIds:', addedItemIds)}
             {console.log('item._id:', item._id)}
-            {console.log('CART:', cartItems)}
+            {console.log('CART:', cartItems)} */}
             {/* Render message below the item */}
             {addedItemIds.includes(item._id) && <div style={{ color: 'green' }}>Item added to your cart</div>}
             {errorItemId === item._id && <div className="error-message">{error}</div>}

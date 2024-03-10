@@ -1,15 +1,15 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CartPage.css';
-
+import { useNavigate  } from 'react-router-dom';
 const CartPage = ({ username }) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [error, setError] = useState(''); // Define error state
   const [errorItemId, setErrorItemId] = useState(null);
 
-
-
+  const navigate = useNavigate (); 
 
   const increaseQuantity = async (itemId) => {
     try {
@@ -101,7 +101,10 @@ const CartPage = ({ username }) => {
     fetchCartItems(); // Fetch cart items when component mounts
   }, [username]); // Fetch cart items whenever the username changes
 
-  
+  const Checkout = async (username) =>{
+    
+    navigate(`/CheckoutPage/${username}`,{ state: { flag: true }});
+  }
  
   return (
     <div>
@@ -136,6 +139,20 @@ const CartPage = ({ username }) => {
           <div className="cart-total">Total Price: ${totalPrice.toFixed(2)}</div>
           <button className="checkout-button">Checkout</button>
         </div>
+        <div className="quantity-control">
+          {errorItemId === item._id && <div className="error-message">{error}</div>}
+          <button onClick={() => decreaseQuantity(item._id)}>-</button>
+          <p>Quantity: {item.quantity}</p>
+          <button onClick={() => increaseQuantity(item._id)}>+</button>
+          <button onClick={()=> DeleteItemCart(item._id)}>Remove</button>
+        </div>
+        
+      </div>
+    ))}
+      </div>
+      <div 
+      className="cart-total">Total Price: ${totalPrice.toFixed(2)}</div>
+      <button onClick={()=> Checkout(username)}>Checkout</button>
       ) : (
         <div>
           <h4>Your cart is empty.</h4>
@@ -143,6 +160,7 @@ const CartPage = ({ username }) => {
         </div>
       )}
     </div>
+    
   );
     
 };

@@ -76,3 +76,7 @@ CartPage.css
   padding: 5px 8px; /* Adjust padding to make buttons smaller */
   font-size: 14px; /* Adjust font size to make buttons smaller */
 }
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}

@@ -1,5 +1,4 @@
 import './App.css';
-
 import React , { useState,useEffect,createContext }  from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignUp from './components/SignUp/SignUpPage';
@@ -8,8 +7,8 @@ import HomePage from './components/Home/HomePage';
 import GuestNavbar from './components/Navbar/GuestNavbar';
 import UserNavbar from './components/Navbar/UserNavbar';
 import Cart from './components/Cart/CartPage';
+import CheckoutPage from './components/CheckoutPage/CheckoutPage';
 import { useCookies } from 'react-cookie';
-import { assertAccessor } from '@babel/types';
 
 export const NameContext = createContext();
 
@@ -18,10 +17,12 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [cookies] = useCookies(['token']);
   const [username, setUsername] = useState(null);
+  const [itemId,setItemId] = useState(null);
   useEffect(() => {
     if (cookies.token) {
       setIsLoggedIn(true);
       setUsername(cookies.username);
+      setItemId(cookies.itemId);
     }
   }, [cookies.token]);
   
@@ -34,7 +35,9 @@ function App() {
       ) : (
         <GuestNavbar />
       )}
-        <Routes>            
+        <Routes>  
+        <Route path="/CheckoutPage/:username" element={<CheckoutPage username={username} />} />
+        {/* <Route path="/CheckoutPage/:username" element={<CheckoutPage username={username} itemId={itemId} />} /> */}
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}  />} />
         <Route path="/mycart" element={<Cart username={username}  />} />

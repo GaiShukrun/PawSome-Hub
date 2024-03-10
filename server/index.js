@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const UsersModel = require('./models/users')
 const ItemModel = require('./models/Items')
 const CartItem = require('./models/CartItem');
+const UserFormData = require('./models/UserFormData');
 const bodyParser = require('body-parser');
 const app = express()
 app.use(express.json())
@@ -13,16 +14,76 @@ app.use(bodyParser.json());
 app.use(bodyParser.json({ limit: '100mb' }));
 mongoose.connect("mongodb+srv://vladik753:G8JOVgSLas5m48yp@myshop.uhaqamv.mongodb.net/Shop")
 
+
+app.post('/api/saveFormData', async (req, res) => {
+  try {
+    const formData = req.body;
+    const newUserFormData = new UserFormData(formData);
+    await newUserFormData.save();
+    res.status(201).json({ message: 'User form data saved successfully' });
+  } catch (error) {
+    console.error('Error saving user form data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 app.get('/api/get-featured-items', async (req, res) => {
     try {
         
       const featuredItems = await ItemModel.find({ featured: true });
       res.json(featuredItems);
       
+      
     } catch (error) {
       console.error('Error fetching featured items:', error);
       res.status(500).json({ error: 'Failed to fetch featured items' });
     }
+});
+
+app.get('/api/get-featured-items/:itemId', async (req, res) => {
+  try {
+    const { itemId } = req.params;
+
+    // Fetch item by itemId
+    const item = await ItemModel.findById(itemId);
+
+    if (!item) {
+      return res.status(404).json({ error: 'Item not found' });
+    }
+
+    res.json(item);
+  } catch (error) {
+    console.error('Error fetching item:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+app.get('/api/carts/:username', async (req, res) => {
+  try {
+    
+    const { username } = req.params;
+    const cartItems = await CartItem.find({ username });
+    
+    
+    // Iterate through each cart item
+    for (const cartItem of cartItems) {
+      // Find the corresponding item
+      const item = await ItemModel.findById(cartItem.itemId);
+
+      // Decrement itemAmount if greater than 0
+      console.log(cartItem.quantity);
+      if (item.itemAmount > 0) {
+        item.itemAmount -= cartItem.quantity;
+        await item.save();
+      }
+      await CartItem.deleteOne({ _id: cartItem._id });
+    }
+
+    // Send the cart items in the response
+    res.json(cartItems);
+  } catch (error) {
+    console.error('Error fetching cart items:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 app.get('/api/cart/:username', async (req, res) => {
@@ -51,6 +112,28 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
     }
   });
 
+  app.get('/api/Buynow/:itemId', async (req, res) => {
+    try {
+      const { itemId } = req.params;
+
+      const item = await ItemModel.findById(itemId);
+      if (!item) {
+        return res.status(404).json({ error: 'Item not found' });
+      }
+      if (item.itemAmount > 0) {
+        item.itemAmount -= 1;
+        await item.save(); // Save the updated item back to the database
+    } else {
+        return res.status(400).json({ error: 'Item out of stock' });
+    }
+      
+      res.json(item);
+    } catch (error) {
+      console.error('Error fetching item:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
   // Route to handle adding items to the cart
   app.post('/api/addToCart', async (req, res) => {
     try {
@@ -69,9 +152,7 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
           res.status(203).json( {error: 'You added the maximum amount' });
         }// If the item already exists in the cart, update the quantity
         
-      }
-      
-      else {
+      } else {
         // If the item doesn't exist in the cart, create a new cart item
         
         // cartItem = new CartItem({ username, itemId, quantity ,itemPrice});
@@ -88,7 +169,6 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
         res.status(201).json(cartItem);
       }
       
-      
     } catch (error) {
       console.error('Error adding item to cart:', error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -96,6 +176,7 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
   });
   
  
+
 app.post('/api/signup', async (req, res) => {
     try {
         // Check if the username already exists
@@ -112,8 +193,38 @@ app.post('/api/signup', async (req, res) => {
         res.status(500).json({ error: 'Internal server error. Please try again later.' });
     }
 });
+app.get('/api/users', async (req, res) => {
+  try {
+    // Fetch all users
+   
+    const users = await UsersModel.find();
+    
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
+app.get('/api/search/:username', async (req, res) => {
+          const { username } = req.params; 
+          
+  try {
+      // Search for the user by username
+      const user = await UsersModel.findOne({ username });
 
+      if (!user) {
+        
+          return res.status(404).json({ message: 'User not found' });
+      }
+     
+      // Return the user data
+      res.status(200).json({ user });
+  } catch (error) {
+      console.error('Error searching for user:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+}); 
 app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -209,9 +320,3 @@ app.put('/api/cart/increaseQuantity/:itemId', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-  
-  
-
- 
- 
-  
