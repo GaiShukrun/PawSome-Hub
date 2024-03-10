@@ -3,6 +3,14 @@
 const mongoose = require('mongoose');
 
 const userFormDataSchema = new mongoose.Schema({
+  OrderDate:{
+    type:String,
+    required:true
+  },
+  username:{
+    type:String,
+    required:true
+  },
   firstName: {
     type: String,
     required: true
