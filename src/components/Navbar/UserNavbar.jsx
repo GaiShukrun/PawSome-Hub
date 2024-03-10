@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 import { useCookies } from 'react-cookie';
 
-function UserNavbar({ setIsLoggedIn,username }) {
+function UserNavbar({ setIsLoggedIn,username}) {
   const [, , removeCookie] = useCookies(['token']);
 
   const handleLogout = () => {
@@ -14,7 +14,6 @@ function UserNavbar({ setIsLoggedIn,username }) {
       setIsLoggedIn(false);
       window.location.href = "/";
     }
-    
   };
   return (
     <nav className="navbar">

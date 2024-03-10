@@ -99,10 +99,10 @@ const HomePage = ({cartItems, setCartItems,username}) => {
   try {
     const response = await axios.post('http://localhost:3001/api/addToCart', newCartItem);
     // setCartItems(prevCartItems => [...prevCartItems, response.data]);
-    if (response.status == 200 || response.status == 201){
+    if (response.status === 200 || response.status === 201){
       SetAddedItemIds(item);
     }
-    else if (response.status == 203){
+    else if (response.status === 203){
       setErrorItemId(item._id);
       setError(response.data.error);
       setTimeout(() => {

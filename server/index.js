@@ -69,7 +69,9 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
           res.status(203).json( {error: 'You added the maximum amount' });
         }// If the item already exists in the cart, update the quantity
         
-      } else {
+      }
+      
+      else {
         // If the item doesn't exist in the cart, create a new cart item
         
         // cartItem = new CartItem({ username, itemId, quantity ,itemPrice});
@@ -85,7 +87,7 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
         await cartItem.save();
         res.status(201).json(cartItem);
       }
-  
+      
       
     } catch (error) {
       console.error('Error adding item to cart:', error);
@@ -94,9 +96,6 @@ app.put('/api/updateCartItem/:id', async (req, res) => {
   });
   
  
-
-
-
 app.post('/api/signup', async (req, res) => {
     try {
         // Check if the username already exists
@@ -210,8 +209,6 @@ app.put('/api/cart/increaseQuantity/:itemId', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-  
- 
   
   
 
