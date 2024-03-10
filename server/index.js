@@ -86,6 +86,41 @@ app.get('/api/carts/:username', async (req, res) => {
   }
 });
 
+
+app.get('/api/getFormData/:username', async (req, res) => {
+  try {
+    const username = req.params.username;
+    const formData = await UserFormData.find({ username: username });
+    res.status(200).json(formData);
+  } catch (error) {
+    console.error('Error fetching user form data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/api/checkout/:username', async (req, res) => {
+  try {
+    
+    const { username } = req.params;
+    const cartItems = await CartItem.find({ username });
+    // Iterate through each cart item
+    for (const cartItem of cartItems) {
+      // Find the corresponding item
+      const item = await ItemModel.findById(cartItem.itemId);
+
+      if (cartItem.quantity > item.itemAmount ) {
+        await CartItem.deleteOne({ _id: cartItem._id });
+        res.status(201).json({ message: 'Some items in your cart are out of stock. The item is removed from your cart.'});
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching cart items:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
 app.get('/api/cart/:username', async (req, res) => {
     try {
       const { username } = req.params;
