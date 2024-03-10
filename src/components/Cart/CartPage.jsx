@@ -1,11 +1,16 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CartPage.css';
-
+import { useNavigate  } from 'react-router-dom';
 const CartPage = ({ username }) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [error, setError] = useState(''); // Define error state
+  const [errorItemId, setErrorItemId] = useState(null);
 
+
+  const navigate = useNavigate (); 
 
   const increaseQuantity = async (itemId) => {
     try {
@@ -16,6 +21,14 @@ const CartPage = ({ username }) => {
           item._id === itemId ? { ...item, quantity: item.quantity + 1 } : item
         );
         setCartItems(updatedCartItems);
+      }
+      if (response.status == 202){
+        setErrorItemId(itemId);
+        setError(response.data.error);
+        setTimeout(() => {
+          setErrorItemId(null);
+          setError('');
+        }, 2000); // Clear error after 2 seconds
       }
     } catch (error) {
       if (error.response && error.response.status === 202) {
@@ -36,7 +49,10 @@ const CartPage = ({ username }) => {
         const updatedCartItems = cartItems.map(item =>
           item._id === itemId ? { ...item, quantity: item.quantity - 1 } : item
         );
-        setCartItems(updatedCartItems.filter(item => item.quantity > 0)); // Remove items with quantity 0
+        setCartItems(updatedCartItems.filter(item => item.quantity > 0)); // Refresh
+      }
+      if (response.status === 201){
+        DeleteItemCart(itemId);
       }
     } catch (error) {
       console.error('Error decreasing quantity:', error);
@@ -45,15 +61,19 @@ const CartPage = ({ username }) => {
   
   const DeleteItemCart = async (itemId) => {
     try {
-      const response = await axios.put(`http://localhost:3001/api/cart/removeItem/${itemId}`);
-      if (response.status === 200) {
-        const updatedCartItems = cartItems.filter(item => item._id !== itemId);
-        setCartItems(updatedCartItems);
+      if (window.confirm('Are you sure you want to remove this item from the cart?')){
+        const response = await axios.put(`http://localhost:3001/api/cart/removeItem/${itemId}`);
+        if (response.status === 200) {
+          const updatedCartItems = cartItems.filter(item => item._id !== itemId);
+          setCartItems(updatedCartItems);
+        }
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Error removing item from cart:', error);
     }
   };
+
   useEffect(() => {
     // Calculate total price whenever cartItems change
     let total = 0;
@@ -82,7 +102,10 @@ const CartPage = ({ username }) => {
     fetchCartItems(); // Fetch cart items when component mounts
   }, [username]); // Fetch cart items whenever the username changes
 
-  
+  const Checkout = async (username) =>{
+    
+    navigate(`/CheckoutPage/${username}`,{ state: { flag: true }});
+  }
  
   return (
     <div>
@@ -92,10 +115,8 @@ const CartPage = ({ username }) => {
       <div className="cart-item" key={item._id}>
         <div className="cart-item-details">
           <img
-            src={`data:image/jpeg;base64,${item.itemPicture}`}
+            src= {'/images/' + item.itemPicture}
             alt={item.itemName}
-            width="200"
-            height="200"
           />
           <div>
             <h3>{item.itemName}</h3>
@@ -103,18 +124,21 @@ const CartPage = ({ username }) => {
           </div>
         </div>
         <div className="quantity-control">
+          {errorItemId === item._id && <div className="error-message">{error}</div>}
           <button onClick={() => decreaseQuantity(item._id)}>-</button>
           <p>Quantity: {item.quantity}</p>
           <button onClick={() => increaseQuantity(item._id)}>+</button>
           <button onClick={()=> DeleteItemCart(item._id)}>Remove</button>
         </div>
-      </div>
-    ))}
         
       </div>
-      <div className="cart-total">Total Price: ${totalPrice.toFixed(2)}</div>
-      <button className="checkout-button">Checkout</button>
+    ))}
+      </div>
+      <div 
+      className="cart-total">Total Price: ${totalPrice.toFixed(2)}</div>
+      <button onClick={()=> Checkout(username)}>Checkout</button>
     </div>
+    
   );
 };
 
