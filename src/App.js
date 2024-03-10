@@ -8,6 +8,7 @@ import GuestNavbar from './components/Navbar/GuestNavbar';
 import UserNavbar from './components/Navbar/UserNavbar';
 import Cart from './components/Cart/CartPage';
 import CheckoutPage from './components/CheckoutPage/CheckoutPage';
+import MyAccount from './components/myaccount/myaccount';
 import { useCookies } from 'react-cookie';
 
 export const NameContext = createContext();
@@ -36,6 +37,7 @@ function App() {
         <GuestNavbar />
       )}
         <Routes>  
+        <Route path= "/myaccount" element={< MyAccount username = {username} />}/>
         <Route path="/CheckoutPage/:username" element={<CheckoutPage username={username} />} />
         {/* <Route path="/CheckoutPage/:username" element={<CheckoutPage username={username} itemId={itemId} />} /> */}
         <Route path="/signup" element={<SignUp />} />
