@@ -1,15 +1,16 @@
 /* Style for the container of all orders */
+
 .orders-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
     gap: 20px;
   }
   
   /* Style for each individual order */
   .order-card {
     width: 300px;
-    background-color: #f8f9fa;
+    background-color: rgb(234, 245, 251);
     border: 1px solid #ced4da;
     border-radius: 8px;
     padding: 20px;

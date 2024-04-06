@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import './myaccount.css';
+import LoadingScreen from '../LoadingScreen/LoadingScreen'
+
 const MyAccount = ({ username }) => {
   const [formData, setFormData] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
-  
+  const [loading, setLoading] = useState(true); //loading page
+
   const fetchFormData = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/api/getFormData/${username}`);
@@ -47,14 +50,24 @@ const MyAccount = ({ username }) => {
 
   // Fetch data when the component mounts
   useEffect(() => {
-    fetchFormData();
-    fetchUserData();
+    const fetchData = async () => {
+      try {
+          await Promise.all([fetchFormData(), fetchUserData()]);
+          setLoading(false);
+      } catch (error) {
+          console.error('Error fetching data:', error);
+      }
+  };
+
+  fetchData();
+    
   }, [username]);
 
   
 
   return (
     <div className="my-account-container">
+      {loading && <LoadingScreen />}
       <h2>Welcome to {username}'s page</h2>
       <div>
         <h2>User Information</h2>
