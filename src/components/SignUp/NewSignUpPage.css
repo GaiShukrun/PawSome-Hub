@@ -1,0 +1,290 @@
+.signup-error-message {
+    background-color: #FFDADA; 
+    border: 1px solid #FF5A5A; 
+    color: #ff0000; 
+    padding: 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.signup-page {
+height: 100vh; /* Set the height to fill the viewport */
+background: linear-gradient(45deg, #FC466B, #3F5EFB); 
+}
+
+.signup-container {
+position: absolute;
+transform: translate(-50%, -50%);
+top: 50%;
+left: 50%;
+}
+
+.signup-form {
+background: rgba(255, 255, 255, 0.3);
+padding: 3em;
+height: 480px;
+border-radius: 20px;
+/* border-left: 1px solid rgba(255, 255, 255, 0.3);
+border-top: 1px solid rgba(255, 255, 255, 0.3); */
+backdrop-filter: blur(10px);
+box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, 0.2);
+text-align: center;
+position: relative;
+transition: all 0.2s ease-in-out;
+}
+.signup-form h2 {
+color: black;
+font-weight: 600;
+font-size: 1.7rem;
+margin-top: 0;
+margin-bottom: 50px;
+}
+.already-have-account {
+text-decoration: underline;
+color: black;
+font-size: 14px;
+}
+.already-have-account:hover {
+text-shadow: 2px 2px 6px #00000049;
+}
+.already-have-account:active {
+text-shadow: none;
+}
+.signup-form input, .signup-button {
+background: transparent;
+width: 200px;
+padding: 1em;
+margin-bottom: 2em;
+border: none;
+border-left: 1px solid rgba(255, 255, 255, 0.3);
+border-top: 1px solid rgba(255, 255, 255, 0.3);
+border-radius: 5000px;
+backdrop-filter: blur(5px);
+box-shadow: 4px 4px 60px rgba(0, 0, 0, 0.2);
+color: black;
+transition: all 0.2s ease-in-out;
+}
+
+
+.signup-form input:hover {
+background: rgba(255, 255, 255, 0.1);
+box-shadow: 4px 4px 60px 8px rgba(0, 0, 0, 0.2);
+}
+.signup-form input[type=username]:focus, .signup-form input[type=password]:focus {
+background: rgba(255, 255, 255, 0.1);
+box-shadow: 4px 4px 60px 8px rgba(0, 0, 0, 0.2);
+}
+.signup-button {
+margin-top: 10px;
+width: 150px;
+font-size: 16px;
+}
+.signup-button:hover {
+cursor: pointer;
+background-color: rgba(247, 245, 252, 0.323);
+}
+.signup-button:active {
+background: rgba(255, 255, 255, 0.2);
+}
+.signup-form:hover {
+margin: 4px;
+}
+
+::placeholder {
+color: rgba(0, 0, 0, 0.808);
+}
+
+.drop {
+background: rgba(255, 255, 255, 0.3);
+backdrop-filter: blur(10px);
+border-radius: 10px;
+border-left: 1px solid rgba(255, 255, 255, 0.3);
+border-top: 1px solid rgba(255, 255, 255, 0.3);
+box-shadow: 10px 10px 60px -8px rgba(0, 0, 0, 0.2);
+position: absolute;
+transition: all 0.2s ease;
+}
+.drop-1 {
+height: 80px;
+width: 80px;
+top: -20px;
+left: -40px;
+z-index: -1;
+}
+.drop-2 {
+height: 80px;
+width: 80px;
+bottom: -30px;
+right: -10px;
+}
+.drop-3 {
+height: 100px;
+width: 100px;
+bottom: 120px;
+right: -50px;
+z-index: -1;
+}
+.drop-4 {
+height: 120px;
+width: 120px;
+top: -60px;
+right: -60px;
+}
+.drop-5 {
+height: 60px;
+width: 60px;
+bottom: 170px;
+left: 90px;
+z-index: -1;
+}
+
+a,
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+outline: none;
+}
+
+
+
+
+/* /////////////////////////////  CAT //////////////////////////*/
+
+/* CSS */
+  
+  .cat-container {
+    position: absolute;
+    left: -100%;
+    top: 50%;
+  }
+
+  .cat2-container {
+    position: absolute;
+    left: 165%;
+    top: 50%;
+  }
+  
+  .cat-mug {
+    position: absolute;
+    width: 92px;
+    height: 80px;
+    background: repeating-linear-gradient(
+      70deg,
+      #f4bbac,
+      #f4bbac 10px,
+      #f1dfcb 10px,
+      #f1dfcb 20px
+    );
+    border-radius: 20px 20px 50px 50px;
+    border: 4px solid #f4bbac;
+  }
+  
+  .cat-mug:after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 25px;
+    border: 10px solid #f4bbac;
+    border-radius: 100%;
+    right: -28px;
+    top: 10px;
+    z-index: -1;
+  }
+  
+  .cat {
+    width: 90px;
+    height: 55px;
+    background-color: #999;
+    position: absolute;
+    border-radius: 250px 250px 120px 120px;
+    left: 5px;
+    top: -30px;
+    box-shadow: 0px 6px 0px 1px rgba(244, 187, 172, 1);
+    z-index: 2;
+  }
+  
+  .cat:after,
+  .cat:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-bottom: 25px solid #999;
+    top: -10px;
+  }
+  
+  .cat:after {
+    transform: rotate(-35deg);
+    left: 0;
+  }
+  
+  .cat:before {
+    transform: rotate(35deg);
+    right: 0;
+  }
+  
+  .cat-eyes li {
+    position: absolute;
+    list-style: none;
+    float: left;
+    width: 6px;
+    height: 6px;
+    background-color: #fff;
+    border: 2px solid black;
+    border-radius: 100%;
+  }
+  
+  .cat-eyes li:first-child {
+    right: 25px;
+  }
+  
+  .cat-eyes li:nth-child(2) {
+    left: 25px;
+  }
+  
+  .cat-eyes li:after {
+    content: "";
+    position: absolute;
+    height: 4px;
+    width: 2px;
+    background-color: black;
+    top: -4px;
+    left: -2px;
+    transform: rotate(120deg);
+  }
+  
+  .cat-mouth {
+    position: absolute;
+    left: 40px;
+    top: 28px;
+  }
+  
+  .cat-mouth:after,
+  .cat-mouth:before {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 8px;
+    background-color: black;
+    transform: rotate(-55deg);
+  }
+  
+  .cat-mouth:after {
+    transform: rotate(55deg);
+    right: -8px;
+  }
+  
+  .cat-shadow {
+    width: 90px;
+    height: 30px;
+    border-radius: 100%;
+    background-color: #a9a7a5;
+    position: absolute;
+    top: 70px;
+    left: 6px;
+    opacity: 0.5;
+  }
+  
