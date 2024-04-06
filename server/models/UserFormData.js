@@ -21,15 +21,19 @@ const userFormDataSchema = new mongoose.Schema({
   },
   cardNumber: {
     type: String,
-    required: true
+    required: false
+  },
+  cardNumberIv: {
+    type: Buffer,
+    required: false
   },
   expiryDate: {
     type: String,
-    required: true
+    required: false
   },
   cvc: {
     type: String,
-    required: true
+    required: false
   },
   address: {
     type: String,
@@ -38,6 +42,14 @@ const userFormDataSchema = new mongoose.Schema({
   itemsCheckout: {
     type: [String], // Array of strings for item names and quantities
     required: true
+  },
+  PayPal_payer_ID: {
+    type: String,
+    required: false
+  },
+  PayPal_order_ID: {
+    type: String,
+    required: false
   }
 });
 
