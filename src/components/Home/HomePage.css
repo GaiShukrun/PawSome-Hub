@@ -1,4 +1,14 @@
 
+body{
+  min-height:100vh; /* Set the height to fill the viewport */
+  background: linear-gradient(45deg, #ffffff , #e1fcff); 
+  background-repeat: repeat;
+}
+
+.home-page h2{
+  margin: auto;
+  padding: 30px;
+}
 
 .items {
   display: flex; /* Added display: flex to the parent container */
@@ -10,7 +20,7 @@
 
 .item-box {
   width: 250px;
-  height: 470px;
+  height: 500px;
   border-radius: 50%; /* Creates a circle */
   overflow: hidden;
   display: flex;
@@ -22,7 +32,7 @@
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
-  background-color: #fff;
+  background-color: transparent;
   transition: transform 0.2s ease-in-out;
   }
   
@@ -37,6 +47,33 @@
   border-radius: 5px;
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
 }
+
+.badge-container{
+  display: flex;
+  color: white;
+  border-radius: 4px;
+  margin-left: 8px;
+  gap: 0.15rem;
+
+}
+
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 13.5px;
+  font-weight: bold;
+}
+
+.badge-popular {
+  background-color: #f29ff5;
+  color: black;
+}
+
+.badge-sale {
+  background-color: #f5df60;
+  color: black;
+}
+
 
 /* Additional customizations (optional) */
 .item-box h3 {
@@ -59,4 +96,136 @@
 
 .item-buttons button {
   margin-right: 10px; /* Add spacing between buttons */
+}
+.item-box1 {
+  width: 180px; /* Adjust width as desired */
+  height: 300px; /* Adjust height as desired */
+  border-radius: 10px; /* Adjust border radius as desired */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 15px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+  background-color: transparent;
+  transition: transform 0.2s ease-in-out;
+}
+.item-box1:hover {
+  transform: scale(1.05);
+}
+.item-box1 img {
+  width: 120px; /* Adjust image width as desired */
+  height: 120px; /* Adjust image height as desired */
+  border-radius: 5px;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
+}
+.item-box1 h3 {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.item-box1 p {
+  font-size: 14px;
+  color: #666;
+}
+.popular-items {
+  display: flex; 
+  flex-wrap: wrap; 
+  justify-content: center; 
+  /* margin-top: 20px auto;  */
+  
+}
+.glowing {
+  animation: glow 2s ease-in-out;
+}
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(255, 255, 0, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 0, 0.7);
+  }
+}
+
+.search-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  margin-right: 1rem;
+  max-width: 300px; /* Limit the maximum width of the search bar */
+}
+
+.search-bar input {
+  flex-grow: 1;
+  padding: 0.5rem; /* Reduce padding */
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.sort-dropdown {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sort-dropdown select,
+.sort-dropdown label {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.sort-dropdown select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  font-size: 1rem;
+}
+
+.sort-dropdown select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.sort-dropdown label {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.sort-dropdown label input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .search-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-bar {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+    max-width: 100%; /* Allow full width on smaller screens */
+  }
 }
