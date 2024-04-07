@@ -2,12 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CartPage.css';
+import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import { useNavigate  } from 'react-router-dom';
+
 const CartPage = ({ username }) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [error, setError] = useState(''); // Define error state
   const [errorItemId, setErrorItemId] = useState(null);
+  const [loading, setLoading] = useState(true); //loading page
+
 
   const navigate = useNavigate (); 
 
@@ -88,6 +92,7 @@ const CartPage = ({ username }) => {
         if (data.length > 0) {
           setCartItems(data);
         }
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching cart items:', error);
       }
@@ -113,7 +118,8 @@ const CartPage = ({ username }) => {
   }
  
   return (
-    <div>
+    <div className="cart-page">
+      {loading && <LoadingScreen />}
       <h2>My Cart</h2>
       {totalPrice > 0 ? (
         <div>

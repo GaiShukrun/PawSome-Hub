@@ -1,0 +1,474 @@
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: #ff0000; 
+}
+.login-error-message {
+  background-color: #FFDADA; 
+  border: 1px solid #FF5A5A; 
+  color: #ff0000; 
+  padding: 10px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+
+.login-page {
+  height: 100vh; /* Set the height to fill the viewport */
+  background: linear-gradient(45deg, #FC466B, #3F5EFB); 
+}
+
+.login-container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+
+.login-form {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 3em;
+  height: 350px;
+  border-radius: 20px;
+  /* border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3); */
+  backdrop-filter: blur(10px);
+  box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+.login-form h2 {
+  color: black;
+  font-weight: 600;
+  font-size: 1.7rem;
+  margin-top: 0;
+  margin-bottom: 50px;
+}
+.dont-have-account {
+  text-decoration: underline;
+  color: black;
+  font-size: 14px;
+}
+.dont-have-account:hover {
+  text-shadow: 2px 2px 6px #00000049;
+}
+.dont-have-account:active {
+  text-shadow: none;
+}
+.login-form input, .login-button {
+  background: transparent;
+  width: 200px;
+  padding: 1em;
+  margin-bottom: 2em;
+  border: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5000px;
+  backdrop-filter: blur(5px);
+  box-shadow: 4px 4px 60px rgba(0, 0, 0, 0.2);
+  color: black;
+  transition: all 0.2s ease-in-out;
+}
+
+ 
+.login-form input:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 4px 4px 60px 8px rgba(0, 0, 0, 0.2);
+}
+.login-form input[type=username]:focus, .login-form input[type=password]:focus {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 4px 4px 60px 8px rgba(0, 0, 0, 0.2);
+}
+.login-button {
+  margin-top: 10px;
+  width: 150px;
+  font-size: 16px;
+}
+.login-button:hover {
+  cursor: pointer;
+  background-color: rgba(247, 245, 252, 0.323);
+}
+.login-button:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+.login-form:hover {
+  margin: 4px;
+}
+
+::placeholder {
+  color: rgba(0, 0, 0, 0.808);
+}
+
+.drop {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 10px 10px 60px -8px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  transition: all 0.2s ease;
+}
+.drop-1 {
+  height: 80px;
+  width: 80px;
+  top: -20px;
+  left: -40px;
+  z-index: -1;
+}
+.drop-2 {
+  height: 80px;
+  width: 80px;
+  bottom: -30px;
+  right: -10px;
+}
+.drop-3 {
+  height: 100px;
+  width: 100px;
+  bottom: 120px;
+  right: -50px;
+  z-index: -1;
+}
+.drop-4 {
+  height: 120px;
+  width: 120px;
+  top: -60px;
+  right: -60px;
+}
+.drop-5 {
+  height: 60px;
+  width: 60px;
+  bottom: 170px;
+  left: 90px;
+  z-index: -1;
+}
+
+a,
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
+
+
+
+/* /////////////////////////////  DOG //////////////////////////*/
+
+.dog {
+  width: 120px;
+  position: absolute;
+  left: 180%;
+  top: 70%;
+  transform: translate(-50%, -50%);
+}
+
+.dog2 {
+  width: 120px;
+  position: absolute;
+  left: -90%;
+  top: 70%;
+  transform: translate(-50%, -50%);
+}
+
+.body {
+  background: #60C8E7;
+  border-radius: 300px 300px 0 0;
+  height: 300px;
+}
+
+.beard {
+  width: 55px;
+  height: 65px;
+  background: #087BA5;
+  margin: 0 auto;
+  border-radius: 20px;
+  position: relative;
+  &:after {
+    content: '';
+    background: #087BA5;
+    width: 26px;
+    height: 13px;
+    border-radius: 0 0 25px 25px;
+    display: block;
+    margin: 0 auto;
+    transform: translateY(64px);
+  }
+  &:before {
+    content: '';
+    background: #000;
+    width: 20px;
+    height: 10px;
+    border-radius: 0 0 20px 20px;
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.mouth {
+  background: #1A243C;
+  width: 30px;
+  height: 15px;
+  border-radius: 0 0 30px 30px;
+  position: absolute;
+  top: 22px;
+  margin: auto;
+  left: 0;
+  right: 0;
+  border-top: 3px solid #fff;
+  box-sizing: border-box;
+  .tongue {
+    width: 20px;
+    height: 30px;
+    border-radius: 5px 5px 10px 10px;
+    background: #FF6B5A;
+    margin: 0 auto;
+    position: relative;
+    top: 4px;
+    transition: 300ms;
+    animation: grow .1s infinite alternate;
+  }
+}
+
+.eyes {
+  background: #fff;
+  width: 20px;
+  height: 24px;
+  border-radius: 20px 20px 0 0;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  top: 2px;
+  &:before, &:after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #000;
+    display: block;
+    border-radius: 50%;
+    top: 50%;
+    position: absolute;
+    animation: squeeze 1.2s infinite;
+  }
+  &:before {
+    left: -13px;
+  }
+  &:after {
+    right: -13px;
+  }
+}
+
+.belt {
+  height: 30px;
+  background: #FF6B5A;
+  margin-top: 20px;
+  position: relative;
+  .locket {
+    width: 30px;
+    height: 30px;
+    background: #FFC442;
+    margin: 0 auto;
+    border-radius: 50%;
+    transform: translateY(50%);
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    position: absolute;
+    border-radius: 50%;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    &.dot1 {
+      margin-left: 10px;
+    }
+    &.dot2 {
+      margin-left: 34px;
+    }
+    &.dot3 {
+      margin-left: 77px;
+    }
+    &.dot4 {
+      margin-left: 100px;
+    }
+  }
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 10px;
+    background: #fff;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  &:before {
+    left: -5px;
+    border-radius: 10px 0 0 10px;
+  }
+  &:after {
+    right: -5px;
+    border-radius: 0 10px 10px 0;
+  }
+}
+
+.stomach {
+  width: 56px;
+  height: 130px;
+  background: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 120px 120px 0 0;
+}
+
+.legs {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 12px;
+  &:before, &:after {
+    height: 12px;
+    border-radius: 20px 20px 0 0;
+    display: inline-block;
+    content: '';
+    position: absolute;
+    background: #087BA5;
+    width: 45px;
+  }
+  &:before {
+    left: -37px;
+  }
+  &:after {
+    right: -37px;
+  }
+  .left, .right {
+    display: inline;
+    width: 12px;
+    height: 55px;
+    background: #087BA5;
+    position: absolute;
+    bottom: 0;
+    &:before {
+      content: '';
+      width: 28px;
+      height: 12px;
+      background: #60C8E7;
+      border-radius: 20px 20px 0 0;
+      display: inline-block;
+      bottom: 0;
+      position: absolute;
+    }
+  }
+  .left {
+    left: -12px;
+    border-radius: 20px 0 0 0;
+    &:before {
+      transform: translateX(-1px);
+    }
+  }
+  .right {
+    right: -12px;
+    border-radius: 0 20px 0 0;
+    z-index: 1;
+    &:before {
+      transform: translateX(-13px); 
+    }
+  }
+}
+
+.ears {
+  position: absolute;
+  z-index: -1;
+  top: -20px;
+  &:after, &:before {
+    content: '';
+    display: inline-block;
+    background: #087BA5;
+    width: 40px;
+    height: 90px;
+    border-radius: 100% 100% 0 0;
+  }
+  &:after {
+    transform: translateX(40px);
+    border: 10px solid #60C8E7;
+    box-sizing: border-box;
+  }
+}
+
+.tail {
+  background: #60C8E7;
+  width: 14px;
+  height: 80px;
+  position: absolute;
+  z-index: -1;
+  right: 10px;
+  bottom: 40px;
+  transform: rotate(30deg);
+  border-radius: 14px;
+  transform-origin: bottom;
+  transition: 300ms;
+  animation: shake .08s infinite alternate;
+}
+
+.tag {
+  border-left: 5px solid #FF6B5A;
+  border-bottom: 5px solid #FF6B5A;
+  width: 120%;
+  height: 161px;
+  z-index: 2;
+  position: absolute;
+  top: 30px;
+  left: 100px;
+  box-sizing: border-box;
+  border-bottom-left-radius: 40px;
+}
+
+@keyframes squeeze {
+  90% {
+    transform: none;
+    animation-timing-function: ease-in;
+  }
+  93% {
+    transform: scale(1.2, 0.3);
+  }
+  100% {
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes grow {
+  0% {
+    animation-timing-function: ease-in;
+  }
+  100% {
+    height: 35px;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(30deg);
+  }
+  100% {
+    transform: rotate(40deg);
+  }
+}

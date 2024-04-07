@@ -7,7 +7,7 @@ function UserNavbar({ setIsLoggedIn,username}) {
   const [, , removeCookie] = useCookies(['token']);
 
   const handleLogout = () => {
-    if (window.confirm('Are you sure you want to remove this item from the cart?')){
+    if (window.confirm('Are you sure you want to logout?')){
       // Clear token from cookies
       removeCookie('token');
       // Update isLoggedIn state to false

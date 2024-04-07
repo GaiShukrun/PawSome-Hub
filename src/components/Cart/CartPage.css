@@ -1,12 +1,10 @@
-CartPage.css
-
-.cart-item {
-  display: flex;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  padding: 10px;
+/* CartPage.css */
+.cart-page h2{
+  margin: auto;
+  padding: 30px;
 }
+
+
 
 .cart-item img {
   width: 100px; /* Adjust image width as needed */
@@ -14,17 +12,7 @@ CartPage.css
   margin-right: 20px;
 }
 
-.cart-item-details {
-  flex: 1;
-}
 
-.cart-item-details h3 {
-  margin-top: 0;
-}
-
-.cart-item-details p {
-  margin: 5px 0;
-}
 
 .cart-total {
   margin-top: 20px;
@@ -44,6 +32,8 @@ CartPage.css
 .checkout-button:hover {
   background-color: #0056b3;
 }
+
+
 .cart-item {
   display: flex;
   align-items: center;
@@ -56,6 +46,7 @@ CartPage.css
   display: flex;
   align-items: center;
   margin-right: 20px;
+  flex:1;
 }
 
 .cart-item-details h3 {
@@ -64,6 +55,8 @@ CartPage.css
 
 .cart-item-details p {
   margin: 5px 0;
+  text-align: left;
+
 }
 
 .quantity-control {
@@ -75,8 +68,4 @@ CartPage.css
   margin: 0 3px;
   padding: 5px 8px; /* Adjust padding to make buttons smaller */
   font-size: 14px; /* Adjust font size to make buttons smaller */
-}
-.error-message {
-  color: red;
-  margin-bottom: 10px;
 }
