@@ -27,10 +27,10 @@ function UserNavbar({ setIsLoggedIn,username}) {
           <Link onClick={handleLogout} className="nav-link">Log-Out🔓</Link>
         </li>
         <li className="nav-item">
-          <Link to="/myaccount" className="nav-link">{username} Account👤</Link>
+          <Link to="/myaccount" className="nav-link">My Account👤</Link>
         </li>
         <li className="nav-item">
-          <Link to="/mycart" className="nav-link">{username} Cart🛒</Link>
+          <Link to="/mycart" className="nav-link"> Cart🛒</Link>
         </li>
         {/* Add more navigation links as needed */}
       </ul>
