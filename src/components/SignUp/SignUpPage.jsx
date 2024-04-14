@@ -39,8 +39,10 @@ function SignUpPage() {
       alert("Thanks for signing up, now you can log in!");
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
+        setLoading(false);
         setError(error.response.data.error); // Set the error message
       } else {
+        setLoading(false);
         setError('An unexpected error occurred. Please try again.'); // Generic error message
       }
     }
