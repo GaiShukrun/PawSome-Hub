@@ -60,9 +60,7 @@ app.get('/api/get-popular-items' , async (req,res)=>{
       // Limit to the top 3 items
       { $limit: 3 }
     ]);
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    console.log(popularItems);
-    console.log("--------");
+    
 
     const popularItemNames = popularItems.map(item => item._id);
     console.log(popularItemNames);
