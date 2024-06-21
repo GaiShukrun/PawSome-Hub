@@ -17,7 +17,7 @@ app.use(express.json())
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.json({ limit: '100mb' }));
-mongoose.connect("mongodb+srv://vladik753:G8JOVgSLas5m48yp@myshop.uhaqamv.mongodb.net/Shop")
+mongoose.connect("Add your mongo string URI here")
 
 
 app.post('/api/saveFormData', async (req, res) => {
