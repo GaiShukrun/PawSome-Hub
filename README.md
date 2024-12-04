@@ -1,6 +1,6 @@
 #  PawSome-Hub Online shop
 
-Welcome to the Bark & Meow Boutique shop! The store offers a variety of items for cats and dogs, including toys, sofas, water fountains, and more.
+Welcome to PawSome-Hub shop! The store offers a variety of items for cats and dogs, including toys, sofas, water fountains, and more.
 This project is a full-fledged e-commerce application built using the MERN stack (MongoDB, Express, React, and Node.js). The Online Shop allows users to browse products, add items to their cart, and complete purchases seamlessly.
 
 ## Features
